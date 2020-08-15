@@ -8,7 +8,8 @@ import {
 	IonRow,
 	IonLabel,
 	IonItem,
-	IonButton
+	IonButton,
+	IonContent
 } from "@ionic/react"
 import { AxiosResponse } from 'axios';
 
@@ -39,14 +40,14 @@ const LoginForm: React.FC<LoginProps> = props => {
 	const handleChangeEmail = (e: CustomEvent) => {
 		setUserFields({
 			...userFields,
-			["email"]: e.detail.value
+			email: e.detail.value
 		})
 	}
 
 	const handleChangePassword = (e: CustomEvent) => {
 		setUserFields({
 			...userFields,
-			["password"]: e.detail.value
+			password: e.detail.value
 		})
 	}
 
@@ -67,7 +68,7 @@ const LoginForm: React.FC<LoginProps> = props => {
 	
 	//render
 	return (
-		
+		<IonContent className="ion-padding">
 			<form onSubmit={handleSubmit}>
 				<IonGrid>
 					<IonRow>
@@ -106,6 +107,7 @@ const LoginForm: React.FC<LoginProps> = props => {
 					</IonRow>
 				</IonGrid>				
 			</form>
+		</IonContent>
 		
 	);
 };

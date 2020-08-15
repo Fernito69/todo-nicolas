@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, useState } from 'react'
 import {
     IonItemSliding,
     IonItem,
@@ -6,11 +6,13 @@ import {
     IonButton,
     IonItemOption,
     IonItemOptions,
-    IonIcon
+    IonIcon,
+    IonAlert
 } from "@ionic/react"
 import { trashOutline, createOutline } from 'ionicons/icons'
 import {editAndSaveTask} from "../dbinteraction"
 import EditTask from "./EditTask"
+import {removeTask} from "../dbinteraction"
 
 export interface Props {
     task: {
@@ -26,12 +28,14 @@ export interface Props {
         taskfinished: boolean
     }
     setEditDone: (value: boolean) => void
+    setDeletingTask: (value: boolean) => void
 }
  
 const Task : React.FC<Props> = props => {
 
     //state
-    const {task, project_id, editTask, setEditTask, setEditDone} = props
+    const {task, project_id, editTask, setEditTask, setEditDone, setDeletingTask} = props
+    const [confirmDelete, setConfirmDelete] = useState<boolean>(false)
 
     //functions
     const setDone = async () => {
@@ -50,8 +54,22 @@ const Task : React.FC<Props> = props => {
         setEditDone(false)    
     }
 
+    const deleteTask = async () => {
+        setDeletingTask(true)
+        await removeTask(task.task_id)
+        setDeletingTask(false)
+    }
+
     return (  
         <Fragment>
+
+            <IonAlert 				
+				isOpen={confirmDelete} 
+				message="Are you sure? This action cannot be undone"
+                buttons={[{text: "Okay", handler: () => deleteTask()},
+                          {text: "Cancel", handler: () => setConfirmDelete(false)}]}
+			/>
+
             {
                 editTask.task_id === task.task_id 
                 ?
@@ -86,7 +104,7 @@ const Task : React.FC<Props> = props => {
                         <IonItemOption color="success" onClick={() => setEditTask(task)}>
                             <IonIcon icon={createOutline} />
                         </IonItemOption>
-                        <IonItemOption color="danger" onClick={() => {}}>
+                        <IonItemOption color="danger" onClick={() => setConfirmDelete(true)}>
                             <IonIcon icon={trashOutline} />
                         </IonItemOption>
                     </IonItemOptions>

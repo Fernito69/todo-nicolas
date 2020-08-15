@@ -1,11 +1,6 @@
 import React, {Fragment, useEffect, useState} from 'react'
-import {
-    IonItem, 
-    IonItemSliding, 
-    IonList,
-    IonItemOptions, 
-    IonItemOption, 
-    IonLabel, 
+import {   
+    IonList,    
     IonContent, 
     IonButton,
     IonText
@@ -27,9 +22,9 @@ export interface Props {
 const Dashboard  : React.FC<Props> = props => {
 
     //state
-    const {user, auth, setActiveProject} = props
+    const {user, setActiveProject} = props
     
-    const [projects, setProjects] = useState([])    
+    const [projects, setProjects] = useState([{projectname:"", project_id: ""}])    
     const [editProject, setEditProject] = useState({projectname: "", project_id: ""})
     const [addProject, setAddProject] = useState<boolean>(false)
     const [deletingProject, setDeletingProject] = useState<boolean>(false)
@@ -52,7 +47,7 @@ const Dashboard  : React.FC<Props> = props => {
     }
 
     return (  
-        <IonContent className="ion-text-center">
+        <IonContent className="ion-text-center ion-padding">
 
             {
                 addProject

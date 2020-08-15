@@ -72,3 +72,12 @@ export const removeProject = async project_id => {
     }    
 }
 
+export const removeTask = async task_id => {    
+    try {
+        const response = await axiosClient.delete(`/api/delete_task/${task_id}`)        
+        return response
+    } catch (error) {
+        console.log(error)
+    }    
+}
+

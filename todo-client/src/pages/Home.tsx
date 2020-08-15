@@ -1,4 +1,4 @@
-import React, {useState, } from 'react';
+import React, {useState, Fragment } from 'react';
 import { 
 	IonContent, 
 	IonHeader, 
@@ -6,9 +6,8 @@ import {
 	IonTitle, 
 	IonToolbar, 
 	IonAlert, 
-	IonText,
 	IonButton,
-	IonIcon
+	IonIcon,
 } from '@ionic/react';
 import LoginForm from '../components/LoginForm';
 import Dashboard from '../components/Dashboard';
@@ -59,30 +58,62 @@ const Home: React.FC = (props) => {
 				
 				<IonToolbar color="primary">
 					<IonTitle slot="start"><h1>To-do list</h1></IonTitle>
-					{
-						auth &&
-						<IonButton 
-							fill="clear" 
-							color="light" 
-							slot="end"
-							onClick={logOut}
-						>
-							<IonIcon slot="start" icon={logOutIcon} />
-							Log out
-						</IonButton>
-					}					
 				</IonToolbar>
 
+				{
+				auth 
+				?
 				<IonToolbar color="secondary">
-					{
-					auth 
-					?
-					<IonTitle size="small">Welcome {user.name}</IonTitle>
-					:
+				<IonTitle size="small">Welcome {user.name}</IonTitle>
+					<IonButton 
+						fill="clear" 
+						color="light" 
+						slot="end"
+						onClick={logOut}
+					>
+						<IonIcon slot="start" icon={logOutIcon} />
+						Log out
+					</IonButton>
+				</IonToolbar>
+				:
+				<IonToolbar color="secondary">
 					<IonTitle size="small">Log in</IonTitle>
-					}
-					{
-						auth && activeProject.project_id !== "" &&
+				</IonToolbar>
+				}	
+
+			</IonHeader>
+				
+			{
+				//renders LOGIN 
+				!auth &&
+				<IonContent>
+					<LoginForm 
+					setLoginError={setLoginError}
+					setErrorMsg={setErrorMsg}
+					setAuth={setAuth}
+					setUser={setUser}
+					/>
+				</IonContent>
+			}
+
+			{
+				//renders DASHBOARD
+				auth && !activeProject.project_id &&
+				<IonContent>
+					<Dashboard 
+						user={user}
+						auth={auth}
+						setActiveProject={setActiveProject}
+					/>
+				</IonContent>
+			}
+
+			{
+				//renders PROJECT DASHBOARD
+				auth && activeProject.project_id &&
+				<Fragment>
+					<IonToolbar color="medium">
+						<IonTitle size="small">{activeProject.projectname}</IonTitle>
 						<IonButton 
 							fill="clear" 
 							color="light" 
@@ -93,45 +124,16 @@ const Home: React.FC = (props) => {
 							<IonIcon slot="start" icon={caretBackOutline} />
 							To projects
 						</IonButton>
-					}		
-				</IonToolbar>
-
-			</IonHeader>
-
-			<IonContent className="ion-padding">
-				
-				{
-					//renders LOGIN 
-					!auth &&
-					<LoginForm 
-					setLoginError={setLoginError}
-					setErrorMsg={setErrorMsg}
-					setAuth={setAuth}
-					setUser={setUser}
-					/>
-				}
-
-				{
-					//renders DASHBOARD
-					auth && !activeProject.project_id &&
-					<Dashboard 
-						user={user}
-						auth={auth}
-						setActiveProject={setActiveProject}
-					/>
-				}
-
-				{
-					//renders PROJECT DASHBOARD
-					auth && activeProject.project_id &&
+					</IonToolbar>
+					
 					<ProjectDashboard
 						user={user}
 						activeProject={activeProject}
 						setActiveProject={setActiveProject}
 					/>
-				}				
-
-			</IonContent>
+					
+				</Fragment>
+			}				
 
 		</IonPage>
 	);

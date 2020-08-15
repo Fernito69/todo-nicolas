@@ -3,9 +3,7 @@ import {
     IonContent,
     IonList,
     IonText,
-    IonButton,
-    IonToolbar,
-    IonTitle
+    IonButton    
 } from "@ionic/react"
 import {callTasks} from "../dbinteraction"
 import Task from "./Task"
@@ -24,9 +22,9 @@ export interface Props {
 const ProjectDashboard : React.FC<Props> = props => {
 
     //state
-    const {user, setActiveProject, activeProject} = props
+    const {user, activeProject} = props
     
-    const [tasks, setTasks] = useState([]) 
+    const [tasks, setTasks] = useState([{taskname: "", taskfinished: false, task_id: ""}]) 
     const [editTask, setEditTask] = useState({taskname: "", task_id: "", taskfinished: false})
     const [addTask, setAddTask] = useState<boolean>(false)
     const [editDone, setEditDone] = useState<boolean>(false)
@@ -38,7 +36,8 @@ const ProjectDashboard : React.FC<Props> = props => {
             return
 
         callProject(user)
-    }, [activeProject, addTask, editTask, editDone])
+        //eslint-disable-next-line
+    }, [activeProject, addTask, editTask, editDone, deletingTask])
 
     //functions    
     const callProject = async (user: {
@@ -51,12 +50,8 @@ const ProjectDashboard : React.FC<Props> = props => {
     }
 
     return (  
-        <IonContent className="ion-text-center">
-
-            <IonToolbar color="tertiary">
-                <IonTitle>{activeProject.projectname}</IonTitle>
-            </IonToolbar>
-
+        <Fragment>
+            <div className="ion-padding ion-text-center">
             {                
                 addTask
                 ?
@@ -76,23 +71,27 @@ const ProjectDashboard : React.FC<Props> = props => {
                         Add new task
                     </IonButton>
                 </Fragment>                
-            }            
+            }         
+            </div>
 
-            <IonList>
-                {
-                    tasks.map(task => (
-                        <Task
-                            setEditDone={setEditDone}
-                            key={task.task_id}
-                            task={task}
-                            setEditTask={setEditTask}
-                            editTask={editTask}
-                            project_id={activeProject.project_id}
-                        />
-                    ))
-                }
-            </IonList>
-        </IonContent>
+            <IonContent className="ion-text-center ion-padding">
+                <IonList>
+                    {
+                        tasks.map(task => (
+                            <Task
+                                setEditDone={setEditDone}
+                                key={task.task_id}
+                                task={task}
+                                setEditTask={setEditTask}
+                                editTask={editTask}
+                                project_id={activeProject.project_id}
+                                setDeletingTask={setDeletingTask}
+                            />
+                        ))
+                    }
+                </IonList>
+            </IonContent>
+        </Fragment>
     );
 }
  

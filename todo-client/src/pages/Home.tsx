@@ -51,7 +51,7 @@ const Home: React.FC = (props) => {
 			<IonAlert 				
 				isOpen={loginError} 
 				message={errorMsg}
-				buttons={[{text: "Okay", handler: clearError}]}
+				buttons={[{text: "Okay", handler: clearError, role: 'cancel'}]}				
 			/>
 
 			<IonHeader>

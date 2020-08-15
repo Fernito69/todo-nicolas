@@ -50,7 +50,7 @@ const AddTask : React.FC<Props> = props => {
             <IonAlert 				
 				isOpen={emptyName} 
 				message="The task must have a name!"
-				buttons={[{text: "Okay", handler: () => setEmptyName(false)}]}
+				buttons={[{text: "Okay", handler: () => setEmptyName(false), role: 'cancel'}]}
 			/>
             
             <IonItem>

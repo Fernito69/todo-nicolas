@@ -49,7 +49,7 @@ const AddProject : React.FC<Props> = props => {
             <IonAlert 				
 				isOpen={emptyName} 
 				message="The project must have a name!"
-				buttons={[{text: "Okay", handler: () => setEmptyName(false)}]}
+				buttons={[{text: "Okay", handler: () => setEmptyName(false), role: 'cancel'}]}
 			/>
             
             <IonItem>

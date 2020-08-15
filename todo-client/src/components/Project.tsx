@@ -45,7 +45,7 @@ const Project : React.FC<Props> = props => {
 				isOpen={confirmDelete} 
 				message="Are you sure? This action cannot be undone"
                 buttons={[{text: "Okay", handler: () => deleteProject()},
-                          {text: "Cancel", handler: () => setConfirmDelete(false)}]}
+                          {text: "Cancel", handler: () => setConfirmDelete(false), role: 'cancel'}]}
 			/>
 
             {

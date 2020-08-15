@@ -67,8 +67,8 @@ const Task : React.FC<Props> = props => {
 				isOpen={confirmDelete} 
 				message="Are you sure? This action cannot be undone"
                 buttons={[{text: "Okay", handler: () => deleteTask()},
-                          {text: "Cancel", handler: () => setConfirmDelete(false)}]}
-			/>
+                          {text: "Cancel", handler: () => setConfirmDelete(false), role: 'cancel'}]}
+            />
 
             {
                 editTask.task_id === task.task_id 
